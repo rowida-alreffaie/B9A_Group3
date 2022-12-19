@@ -20,6 +20,8 @@ public class Lab1 {
         System.out.println(" i'm student number 2 and my name is Futoon Mojalled ");
         System.out.println(" i'm student number 3 and my name is Shaimaa Alahdal and i love pizza (; ");
         System.out.println(" i'm student number 4 and my name is Raghad Ajlan... she's a cat person <3");
+        System.out.println(" i'm student number 5 sherihan ");
+        
               
     }
     
