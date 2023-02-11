@@ -130,8 +130,71 @@ public class onlineBookstore {
      * The User To Select The Number Of The Book He\She Wants To Delete
      */
     private static void DeleteBook(Scanner input) {
-       
+        if (!Cart.isEmpty()) {
+            System.out.println("\n\nThe Book\\s You Have In Cart: ");
+            DisplayCart();
+            System.out.print("Please, Select The Book You Want To Delete (Press 0 To Go Back). ");
+            while (true) {
+                int selected = input.nextInt();
+                if (selected == 0) {
+
+                    break;
+
+                } else if (1 <= selected && selected <= Cart.size()) {
+
+                    System.out.print("Are You Sure You Want To Delete The Book " + Cart.get(selected - 1).Title + " (yes/no)?");
+                    while (true) {
+
+                        String choice = input.next();
+                        if (choice.equalsIgnoreCase("yes")) {
+
+                            DeleteBook(Cart.get(selected - 1));
+                            System.out.println("\nBook deleted successfully!\n");
+                            break;
+
+                        } else if (choice.equalsIgnoreCase("no")) {
+
+                            break;
+
+                        } else {
+
+                            System.out.println("\nWrong Input, Try Again!\n");
+
+                        }
+                    }
+
+                    break;
+
+                } else {
+
+                    System.out.println("\nWrong Input, Try Again!\n");
+
+                }
+            }
+        } else {
+
+            System.out.println("\nShopping Cart is empty!\n");
+
+        }
     }
+
+    public static void DeleteBook(Book book) {
+        Cart.remove(book);
+    }
+
+    //----------------------------------------------------------------------------------------------
+    /**
+     * Method To Display The Whole Cart
+     */
+    private static void DisplayCart() {
+        int counter = 1;
+        for (Book tempBook : Cart) {
+
+            System.out.println(counter++ + ".\t" + tempBook + "\n\n");
+
+        }
+    }
+
 
     //----------------------------------------------------------------------------------------------
     /**
