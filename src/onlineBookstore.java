@@ -1,7 +1,9 @@
+
 import java.io.*;
 import java.util.*;
 
 public class onlineBookstore {
+
     static ArrayList<Book> Library = new ArrayList();
     static ArrayList<Book> Cart = new ArrayList();
 
@@ -24,7 +26,7 @@ public class onlineBookstore {
 
         boolean flag = true;
 
-        for (; flag; ) {
+        for (; flag;) {
             int choice = input.nextInt();
             switch (choice) {
                 case 1:
@@ -43,11 +45,9 @@ public class onlineBookstore {
         }
     }
 
-
 //----------------------------------------------------------------------------------------------
 //                                Customer Operations
 //----------------------------------------------------------------------------------------------
-
     /**
      * Method That Represent The Driver Of The customer's Operations
      *
@@ -69,7 +69,10 @@ public class onlineBookstore {
                         DeleteBook(input);
                         break;
                     case 3:
-                        SearchForBook(input);
+                        System.out.print("\nPlease, Enter The Book Title Or The Author: ");
+                        input.nextLine();
+                        String Name = input.nextLine().trim().replaceAll(" ", "_");
+                        SearchForBook(Name);
                         break;
                     case 4:
                         System.out.println("\nThank You For Shopping With Us.\n\n");
@@ -85,7 +88,10 @@ public class onlineBookstore {
                         AddBookToCart(input);
                         break;
                     case 2:
-                        SearchForBook(input);
+                        System.out.print("\nPlease, Enter The Book Title Or The Author: ");
+                        input.nextLine();
+                        String Name = input.nextLine().trim().replaceAll(" ", "_");
+                        SearchForBook(Name);
                         break;
                     case 3:
                         return;
@@ -95,21 +101,19 @@ public class onlineBookstore {
     }
 
     /**
-     * Method To Search For A Book\s By Asking The User To Enter The Title Of The Book,
-     * Or By The Name Of The Author And Display All The Matches
+     * Method To Search For A Book\s By Asking The User To Enter The Title Of
+     * The Book, Or By The Name Of The Author And Display All The Matches
      *
-     * @param input Scanner
+     * @param Name
+     * @return 
      */
-    private static void SearchForBook(Scanner input) {
-        System.out.print("\nPlease, Enter The Book Title Or The Author: ");
-        input.nextLine();
-        String Name = input.nextLine().trim().replaceAll(" ", "_");
+    public static ArrayList<Book> SearchForBook(String Name) {
         int Counter = 0;
-
-
+        ArrayList<Book> result = new ArrayList();
         for (int i = 0; i < Library.size(); i++) {
             if (Name.equalsIgnoreCase(Library.get(i).Title) || Name.equalsIgnoreCase(Library.get(i).Author)) {
                 System.out.println(++Counter + ": " + Library.get(i));
+                result.add(Library.get(i));
             }
         }
 
@@ -117,68 +121,23 @@ public class onlineBookstore {
             System.out.println("\nSorry, There Is No Books By This Title Or Author.\n");
 
         }
+        return result;
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
-     * Method To Delete A Book From The Cart By Displaying The Cart,
-     * Then Ask The User To Select The Number Of The Book He\She Wants To Delete
+     * Method To Delete A Book From The Cart By Displaying The Cart, Then Ask
+     * The User To Select The Number Of The Book He\She Wants To Delete
      */
-   private static void DeleteBook(Scanner input) { 
-        if (!Cart.isEmpty()) { 
-            System.out.println("\n\nThe Book\\s You Have In Cart: "); 
-            DisplayCart(); 
-            System.out.print("Please, Select The Book You Want To Delete (Press 0 To Go Back). "); 
-            while (true) { 
-                int selected = input.nextInt(); 
-                if (selected == 0) { 
- 
-                    break; 
- 
-                } else if (1 <= selected && selected <= Cart.size()) { 
- 
-                    System.out.print("Are You Sure You Want To Delete The Book " + Cart.get(selected - 1).Title + " (yes/no)?"); 
-                    while (true) { 
- 
-                        String choice = input.next(); 
-                        if (choice.equalsIgnoreCase("yes")) { 
- 
-                            Cart.remove(selected - 1); 
-                            System.out.println("\nBook deleted successfully!\n"); 
-                            break; 
- 
-                        } else if (choice.equalsIgnoreCase("no")) { 
- 
-                            break; 
- 
-                        } else { 
- 
-                            System.out.println("\nWrong Input, Try Again!\n"); 
- 
-                        } 
-                    } 
- 
-                    break; 
- 
-                } else { 
- 
-                    System.out.println("\nWrong Input, Try Again!\n"); 
- 
-                } 
-            } 
-        } else { 
- 
-            System.out.println("\nShopping Cart is empty!\n"); 
- 
-        } 
+    private static void DeleteBook(Scanner input) {
+       
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
-     * Method To Add A Book From The Library Into The Cart By Displaying The Library, T
-     * hen Ask The User To Select The Number OF The Book He\She Wants To Add
+     * Method To Add A Book From The Library Into The Cart By Displaying The
+     * Library, T hen Ask The User To Select The Number OF The Book He\She Wants
+     * To Add
      *
      * @param input Scanner
      */
@@ -201,8 +160,7 @@ public class onlineBookstore {
 
                     String choice = input.next();
                     if (choice.equalsIgnoreCase("yes")) {
-
-                        Cart.add(Library.get(selected - 1));
+                        addBookToCart(Library.get(selected - 1));
                         System.out.println("Book Add successfully To The Cart!");
                         break;
 
@@ -213,21 +171,23 @@ public class onlineBookstore {
                     } else {
 
                         System.out.println("\nWrong Input, Try Again!\n");
-
                     }
                 }
-
                 break;
-
             } else {
-
                 System.out.println("\nWrong Input, Try Again!\n");
-
             }
         }
     }
-
-    //----------------------------------------------------------------------------------------------
+    /**
+     * @param book Book Method To Add A Book To The Cart It's A Static Method
+     * So, It Can Be Used In The Main Method Without Creating An Object From The
+     * Class
+     *
+     */
+    public static void addBookToCart(Book book) {
+        Cart.add(book);
+    }
 
     /**
      * Method To Display The Whole Library
@@ -249,39 +209,36 @@ public class onlineBookstore {
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
-     * Method To Display The Menu For The Customer, It Has 2 Menus
-     * The First If The Cart Is Empty So, No Need To Give "DeleteFromCart" & "CheckOut" As An Option,
-     * The Second Menu Will Only Shows "AddBookToCart", "SearchFroBook", And "Quit".
+     * Method To Display The Menu For The Customer, It Has 2 Menus The First If
+     * The Cart Is Empty So, No Need To Give "DeleteFromCart" & "CheckOut" As An
+     * Option, The Second Menu Will Only Shows "AddBookToCart", "SearchFroBook",
+     * And "Quit".
      */
     private static void CustomerMenu() {
         if (Cart.size() != 0) {
-            System.out.println("1: Add Book To Cart." +
-                    "\n2: Delete Book from Cart." +
-                    "\n3: Search For Book." +
-                    "\n4: Check Out." +
-                    "\n5: Quit.");
+            System.out.println("1: Add Book To Cart."
+                    + "\n2: Delete Book from Cart."
+                    + "\n3: Search For Book."
+                    + "\n4: Check Out."
+                    + "\n5: Quit.");
             return;
         }
-        System.out.println("1: Add Book To Cart." +
-                "\n2: Search For Book." +
-                "\n3: Quit.");
-
+        System.out.println("1: Add Book To Cart."
+                + "\n2: Search For Book."
+                + "\n3: Quit.");
 
     }
-
 
 //----------------------------------------------------------------------------------------------
 //                                Employee Operations
 //----------------------------------------------------------------------------------------------
-
     /**
      * Method That Represent The Driver Of The Employee's Operations
      *
      * @param input Scanner
-     * @throws FileNotFoundException Exception If The File Can't Be
-     *                               Found In The Invoked Method "AddBookToWebsite()"
+     * @throws FileNotFoundException Exception If The File Can't Be Found In The
+     * Invoked Method "AddBookToWebsite()"
      */
     private static void EmployeeOperations(Scanner input) throws FileNotFoundException {
         while (true) {
@@ -302,10 +259,9 @@ public class onlineBookstore {
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
-     * Method Reads The Book's Information And Add It To The Website And Into The DataBase By Over Writing
-     * The DataBase "Books.txt"
+     * Method Reads The Book's Information And Add It To The Website And Into
+     * The DataBase By Over Writing The DataBase "Books.txt"
      *
      * @param input Scanner
      * @throws FileNotFoundException Exception If The File Can't Be Found
@@ -321,25 +277,18 @@ public class onlineBookstore {
         int year = input.nextInt();
         int Month = input.nextInt();
         int Day = input.nextInt();
+        AddBookToWebsite(year, Month, Day, Author, Title);
 
+    }
+
+    public static void AddBookToWebsite(int year, int Month, int Day, String Author, String Title) throws FileNotFoundException {
         Date tempDate = new Date(year - 1900, Month - 1, Day);
-
 
         Book tempBook = new Book(Author, Title, tempDate);
 
         Library.add(tempBook);
 
-
-        //To Update The DataBase
-        PrintWriter pen = new PrintWriter("Books.txt");
-        pen.println("#Title   Author   Publish-Date: year month day");
-        for (Book book : Library) {
-            pen.println(book.Title + " " + book.Author + " " +
-                    (book.Published.getYear() + 1900) + " " + (book.Published.getMonth() + 1) + " " +
-                    book.Published.getDate());
-        }
-        pen.flush();
-        pen.close();
+        updateDataBase("book.txt");
 
         System.out.println("The Website And The DataBase Has Been Updated");
         System.out.println("the library contains: ");
@@ -347,29 +296,39 @@ public class onlineBookstore {
         for (Book book : Library) {
             System.out.println(Counter++ + ". " + book);
         }
+    }
 
+    public static void updateDataBase(String fileName) throws FileNotFoundException {
+        PrintWriter pen = new PrintWriter(fileName);
+        pen.println("#Title   Author   Publish-Date: year month day");
+        for (Book book : Library) {
+            pen.println(book.Title + " " + book.Author + " "
+                    + (book.Published.getYear() + 1900) + " " + (book.Published.getMonth() + 1) + " "
+                    + book.Published.getDate());
+        }
+        pen.flush();
+        pen.close();
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
      * Method To Display The Employee's Menu
      */
     private static void EmployeeMenu() {
-        System.out.println("1: Add Book To The Library." +
-                "\n2: Quit.");
+        System.out.println("1: Add Book To The Library."
+                + "\n2: Quit.");
     }
 
     //----------------------------------------------------------------------------------------------
-
     /**
-     * Method To Read All The Books From The DateBase "Books.txt" And Add It To The Library
+     * Method To Read All The Books From The DateBase "Books.txt" And Add It To
+     * The Library
      *
      * @param input Scanner
      */
     private static void AddAllBooks(Scanner input) {
 
-        for (; input.hasNext(); ) {
+        for (; input.hasNext();) {
 
             String Line = input.nextLine().trim();
             if (Line.startsWith("#")) {
@@ -386,14 +345,14 @@ public class onlineBookstore {
             int day = Integer.parseInt(temp[4]);
             Date published = new Date(year - 1900, month - 1, day);
 
-
             Book tempBook = new Book(Author, Title, published);
             Library.add(tempBook);
         }
 
     }
 
-    private static void DisplayCart() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addBookToWebsite(Book bookToAdd) {
+        Library.add(bookToAdd);
+
     }
 }

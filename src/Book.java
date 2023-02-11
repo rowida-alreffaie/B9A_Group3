@@ -1,9 +1,11 @@
+
 import java.util.Date;
 
 public class Book {
-      String Author;
-     String Title;
-     Date Published;
+
+    String Author;
+    String Title;
+    Date Published;
 
     public Book(String author, String title, Date published) {
         Author = author;
@@ -11,15 +13,25 @@ public class Book {
         Published = published;
     }
 
+    public String getAuthor() {
+        return Author;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public Date getPublished() {
+        return Published;
+    }
 
     @Override
     public String toString() {
 
-        return
-            "\nBook: " + Title.replaceAll("_"," ") +
-            "\nWritten by: " +Author.replaceAll("_" , " ")+
-            "\nPublish Date: " +
-            String.format((Published.getYear() + 1900) + "-" + (Published.getMonth() + 1) +
-                    "-" + Published.getDate()) + "\n";
-}
+        return "\nBook: " + Title.replaceAll("_", " ")
+                + "\nWritten by: " + Author.replaceAll("_", " ")
+                + "\nPublish Date: "
+                + String.format((Published.getYear()) + "-" + (Published.getMonth())
+                        + "-" + Published.getDate()) + "\n";
+    }
 }
